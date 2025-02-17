@@ -94,3 +94,6 @@ En suivant ces étapes, vous devriez être en mesure de satisfaire les prérequi
 - A la fin du mail sera mis automatiquement une signature automatique, donc il n'est pas nécessaire de signer son mail. 
 >  ![Exemple de bas de page](https://i.imgur.com/sFKshZ1.png)
 - Une copie du mail vous sera envoyée pour que vous puissiez vérifier que toutes les informations que vous souhaitiez saisir apparaîssent bien.
+
+## En savoir plus
+Pour toute question supplémentaire envoyez un mail à [eliaz.queric@student-cs.fr](mailto:eliaz.queric@student-cs.fr?subject=Question relative à mail_sender pour le CACS)
