@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Envoyer un Email</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input,
+        textarea,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Envoyer un Email</h1>
+        <form action="/envoyer_email/" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="destinataires">Destinataires (To) :</label>
+            <input type="text" id="destinataires" name="destinataires" required>
+
+            <label for="cc">Cc :</label>
+            <input type="text" id="cc" name="cc">
+
+            <label for="bcc">Bcc :</label>
+            <input type="text" id="bcc" name="bcc">
+
+            <label for="titre">Titre du mail :</label>
+            <input type="text" id="titre" name="titre" required>
+
+            <label for="contenu">Contenu du mail :</label>
+            <textarea id="contenu" name="contenu" rows="10" required></textarea>
+
+            <label for="nom">Votre NOM :</label>
+            <input type="text" id="nom" name="nom" required>
+
+            <label for="prenom">Votre PRÉNOM :</label>
+            <input type="text" id="prenom" name="prenom" required>
+
+            <label for="pieceJointe">Pièce jointe (optionnel) :</label>
+            <input type="file" id="pieceJointe" name="pieceJointe">
+
+            <button type="submit">Envoyer l'Email</button>
+        </form>
+    </div>
+</body>
+
+</html>
