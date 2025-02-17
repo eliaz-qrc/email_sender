@@ -22,14 +22,14 @@ Pour exécuter cette application, assurez-vous d'avoir les éléments suivants i
   ```
 
 - **win32com** : Utilisé pour l'intégration avec Microsoft Outlook. Installez-le via pip :
-```bash
-pip install pywin32
-```
+  ```bash
+  pip install pywin32
+  ```
 
 - **pandas** : Utilisé pour la gestion des fichiers Excel. Installez-le via pip :
-```bash
-pip install pandas
-```
+  ```bash
+  pip install pandas
+  ```
 
 ### Si les Prérequis ne Sont Pas Satisfaits
 
@@ -96,4 +96,4 @@ En suivant ces étapes, vous devriez être en mesure de satisfaire les prérequi
 - Une copie du mail vous sera envoyée pour que vous puissiez vérifier que toutes les informations que vous souhaitiez saisir apparaîssent bien.
 
 ## En savoir plus
-Pour toute question supplémentaire envoyez un mail à [eliaz.queric@student-cs.fr](mailto:eliaz.queric@student-cs.fr?subject=Question relative à mail_sender pour le CACS)
+Pour toute question supplémentaire envoyez un mail à [eliaz.queric@student-cs.fr]
