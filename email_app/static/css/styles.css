@@ -1,48 +1,63 @@
+/* styles.css */
+
 body {
-    align-items: center;
     background-color: #000;
     display: flex;
-    justify-content: center;
-    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 200vh;
+    margin: 0;
+    padding: 20px;
+    font-family: sans-serif;
+    min-height: 200px;
+    overflow: auto;
+    /* Permet le défilement si nécessaire */
 }
 
 .form {
     background-color: #15172b;
     border-radius: 20px;
     box-sizing: border-box;
-    height: 500px;
-    padding: 20px;
-    width: 320px;
+    padding: 40px;
+    width: 100%;
+    max-width: 900px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow: hidden;
+    /* Empêche le défilement interne du formulaire */
 }
 
 .title {
     color: #eee;
-    font-family: sans-serif;
     font-size: 36px;
     font-weight: 600;
-    margin-top: 30px;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
 .subtitle {
     color: #eee;
-    font-family: sans-serif;
     font-size: 16px;
     font-weight: 600;
-    margin-top: 10px;
+    margin-bottom: 30px;
+    text-align: center;
 }
 
 .input-container {
-    height: 50px;
     position: relative;
     width: 100%;
+    margin-bottom: 20px;
 }
 
 .ic1 {
-    margin-top: 40px;
+    margin-top: 0;
 }
 
 .ic2 {
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .input {
@@ -51,11 +66,17 @@ body {
     border: 0;
     box-sizing: border-box;
     color: #eee;
-    font-size: 18px;
-    height: 100%;
+    font-size: 16px;
     outline: 0;
-    padding: 4px 20px 0;
+    padding: 10px 20px;
     width: 100%;
+    resize: none;
+}
+
+.input-content {
+    height: auto;
+    min-height: 100px;
+    overflow: hidden;
 }
 
 .cut {
@@ -67,11 +88,11 @@ body {
     top: -20px;
     transform: translateY(0);
     transition: transform 200ms;
-    width: 76px;
+    width: calc(100%);
 }
 
 .cut-short {
-    width: 50px;
+    width: calc(100%);
 }
 
 .input:focus~.cut,
@@ -81,19 +102,18 @@ body {
 
 .placeholder {
     color: #65657b;
-    font-family: sans-serif;
     left: 20px;
     line-height: 14px;
     pointer-events: none;
     position: absolute;
     transform-origin: 0 50%;
     transition: transform 200ms, color 200ms;
-    top: 20px;
+    top: 10px;
 }
 
 .input:focus~.placeholder,
 .input:not(:placeholder-shown)~.placeholder {
-    transform: translateY(-30px) translateX(10px) scale(0.75);
+    transform: translateY(-20px) translateX(10px) scale(0.75);
 }
 
 .input:not(:placeholder-shown)~.placeholder {
@@ -113,8 +133,7 @@ body {
     cursor: pointer;
     font-size: 18px;
     height: 50px;
-    margin-top: 38px;
-    // outline: 0;
+    margin-top: 30px;
     text-align: center;
     width: 100%;
 }

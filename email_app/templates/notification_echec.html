@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification d'Échec</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+    <div class="form">
+        <div class="title">Notification d'Échec</div>
+        <div class="subtitle">L'envoi de l'email a échoué. Veuillez réessayer plus tard.</div>
+        <div class="subtitle">
+            Raison de l'échec : {{ raison_echec }}
+        </div>
+        <div class=" submit-container">
+            <a href="{% url 'index' %}" class="submit">Retour à l'accueil</a>
+        </div>
+    </div>
+</body>
+
+</html>

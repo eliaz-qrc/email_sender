@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation d'Envoi</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+    <div class="form">
+        <div class="title">Confirmation d'Envoi</div>
+        <div class="subtitle">Votre email a été envoyé avec succès !</div>
+        <div class="submit-container">
+            <a href="{% url 'index' %}" class="submit">Renvoyer un mail</a>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,11 +1,11 @@
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
 import pythoncom
 import win32com.client
 import os
 import re
 import pandas as pd
 import unicodedata
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
 
 def enlever_accents(texte):
     texte_normalise = unicodedata.normalize('NFD', texte)
@@ -51,7 +51,7 @@ def recuperer_infos_membre(df, nom, prenom):
         numero = membre.iloc[0]["Numéro"]
         return poste, numero
     else:
-        return "Membre du CACS", "Non renseigné"
+        return None, None
 
 def index(request):
     return render(request, 'form.html')
@@ -61,7 +61,6 @@ def envoyer_email(request):
         pythoncom.CoInitialize()  # Initialiser COM
         try:
             destinataires = request.POST['destinataires']
-            print(destinataires)
             cc = request.POST['cc']
             bcc = request.POST['bcc']
             titre = request.POST['titre']
@@ -74,16 +73,20 @@ def envoyer_email(request):
             df_membres = charger_donnees_excel()
 
             if df_membres is None:
-                return HttpResponse("Fichier Excel introuvable.")
+                return render(request, 'notification_echec.html', {'raison_echec': 'Fichier Excel introuvable.'})
 
             email_auteur = f"{enlever_accents(prenom).lower()}.{enlever_accents(nom).lower()}@student-cs.fr"
             nom_prenom_auteur = f"{prenom.capitalize()} {nom.capitalize()}"
             poste, numero = recuperer_infos_membre(df_membres, nom, prenom)
+
+            if poste is None or numero is None:
+                return render(request, 'notification_echec.html', {'raison_echec': 'Auteur non trouvé dans le fichier Excel.'})
+
             numero = format_french_phone_number(numero)
 
             chemin_template = trouver_template_html()
             if not chemin_template:
-                return HttpResponse("Fichier HTML introuvable.")
+                return render(request, 'notification_echec.html', {'raison_echec': 'Fichier HTML introuvable.'})
 
             with open(chemin_template, "r", encoding="utf-8") as f:
                 html_content = f.read()
@@ -109,7 +112,7 @@ def envoyer_email(request):
                 mail.Attachments.Add(chemin_piece_jointe)
 
             mail.Send()
-            
+
             # Envoi d'une copie de vérification à l'auteur
             mail_verification = outlook.CreateItem(0)
             mail_verification.To = email_auteur
@@ -117,7 +120,9 @@ def envoyer_email(request):
             mail_verification.HTMLBody = html_content
             mail_verification.Send()
 
-            return HttpResponse("Email envoyé avec succès !")
+            return render(request, 'confirmation_envoi.html')
+        except Exception as e:
+            return render(request, 'notification_echec.html', {'raison_echec': str(e)})
         finally:
             pythoncom.CoUninitialize()  # Libérer COM
     return redirect('index')
