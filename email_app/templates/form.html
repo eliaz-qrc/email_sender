@@ -7,12 +7,30 @@
     <title>Envoyer un Email</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <style>
-        .input-content {
-            height: auto;
-            overflow: hidden;
-        }
-    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const textarea = document.querySelector(".input");
+
+            textarea.addEventListener("input", function () {
+                this.style.height = "auto";
+                this.style.height = this.scrollHeight + "px";
+                document.body.style.height = document.documentElement.scrollHeight + "px";
+            });
+
+            // Affichage des fichiers sélectionnés
+            const fileInput = document.getElementById("pieceJointe");
+            const fileListDisplay = document.getElementById("fileListDisplay");
+
+            fileInput.addEventListener("change", function () {
+                fileListDisplay.innerHTML = "";
+                Array.from(fileInput.files).forEach(file => {
+                    let listItem = document.createElement("div");
+                    listItem.textContent = file.name;
+                    fileListDisplay.appendChild(listItem);
+                });
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -57,9 +75,10 @@
                 <label for="prenom" class="placeholder">Votre PRÉNOM</label>
             </div>
             <div class="input-container ic2">
-                <input type="file" class="input" id="pieceJointe" name="pieceJointe">
+                <input type="file" class="input" id="pieceJointe" name="pieceJointe[]" multiple>
                 <div class="cut cut-short"></div>
-                <label for="pieceJointe" class="placeholder">Pièce jointe (optionnel)</label>
+                <label for="pieceJointe" class="placeholder">Pièces jointes (optionnel)</label>
+                <div id="fileListDisplay"></div> <!-- Affichage des fichiers sélectionnés -->
             </div>
             <div class="submit-container">
                 <button type="submit" class="submit">Envoyer l'Email</button>

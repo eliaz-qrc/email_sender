@@ -30,28 +30,16 @@ def format_french_phone_number(phone_number: int):
 def trouver_template_html():
     chemin_script = os.path.dirname(os.path.abspath(__file__))
     chemin_template = os.path.join(chemin_script, "templates", "Template-Mail-CACS.html")
-    if os.path.exists(chemin_template):
-        return chemin_template
-    else:
-        return None
+    return chemin_template if os.path.exists(chemin_template) else None
 
 def charger_donnees_excel():
     chemin_script = os.path.dirname(os.path.abspath(__file__))
     chemin_excel = os.path.join(chemin_script, "Membres_CACS.xlsx")
-    if os.path.exists(chemin_excel):
-        df = pd.read_excel(chemin_excel)
-        return df
-    else:
-        return None
+    return pd.read_excel(chemin_excel) if os.path.exists(chemin_excel) else None
 
 def recuperer_infos_membre(df, nom, prenom):
     membre = df[(df["Nom"].str.lower() == nom.lower()) & (df["Prénom"].str.lower() == prenom.lower())]
-    if not membre.empty:
-        poste = membre.iloc[0]["Poste"]
-        numero = membre.iloc[0]["Numéro"]
-        return poste, numero
-    else:
-        return None, None
+    return (membre.iloc[0]["Poste"], membre.iloc[0]["Numéro"]) if not membre.empty else (None, None)
 
 def index(request):
     return render(request, 'form.html')
@@ -67,7 +55,7 @@ def envoyer_email(request):
             contenu = request.POST['contenu']
             nom = request.POST['nom']
             prenom = request.POST['prenom']
-            piece_jointe = request.FILES.get('pieceJointe')
+            pieces_jointes = request.FILES.getlist('pieceJointe[]')  # Récupération de plusieurs fichiers
 
             outlook = win32com.client.Dispatch("Outlook.Application")
             df_membres = charger_donnees_excel()
@@ -104,12 +92,15 @@ def envoyer_email(request):
             mail.Subject = f"[CACS CentraleSupélec] {titre}"
             mail.HTMLBody = html_content
 
-            if piece_jointe:
-                chemin_piece_jointe = os.path.join(os.getcwd(), piece_jointe.name)
+            # Gestion des pièces jointes multiples
+            fichiers_temporaires = []  # Pour stocker les chemins des fichiers temporaires
+            for fichier in pieces_jointes:
+                chemin_piece_jointe = os.path.join(os.getcwd(), fichier.name)
                 with open(chemin_piece_jointe, 'wb+') as destination:
-                    for chunk in piece_jointe.chunks():
+                    for chunk in fichier.chunks():
                         destination.write(chunk)
                 mail.Attachments.Add(chemin_piece_jointe)
+                fichiers_temporaires.append(chemin_piece_jointe)  # Stockage du fichier temporaire
 
             mail.Send()
 
@@ -120,9 +111,17 @@ def envoyer_email(request):
             mail_verification.HTMLBody = html_content
             mail_verification.Send()
 
+            # Suppression des fichiers temporaires après l'envoi
+            for fichier in fichiers_temporaires:
+                if os.path.exists(fichier):
+                    os.remove(fichier)
+
             return render(request, 'confirmation_envoi.html')
+
         except Exception as e:
             return render(request, 'notification_echec.html', {'raison_echec': str(e)})
+
         finally:
             pythoncom.CoUninitialize()  # Libérer COM
+
     return redirect('index')

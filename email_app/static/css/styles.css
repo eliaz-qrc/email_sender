@@ -6,14 +6,16 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    height: 200vh;
+    height: auto;
+    /* Ajuste automatiquement la hauteur */
     margin: 0;
     padding: 20px;
     font-family: sans-serif;
-    min-height: 200px;
+    min-height: 100px;
+    /* Nouvelle hauteur minimale */
     overflow: auto;
-    /* Permet le défilement si nécessaire */
 }
+
 
 .form {
     background-color: #15172b;
@@ -26,8 +28,10 @@ body {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    overflow: hidden;
-    /* Empêche le défilement interne du formulaire */
+    overflow: visible;
+    /* Permet au contenu de grandir */
+    height: auto;
+    /* S'ajuste au contenu */
 }
 
 .title {
@@ -71,6 +75,9 @@ body {
     padding: 10px 20px;
     width: 100%;
     resize: none;
+    overflow: hidden;
+    min-height: 100px;
+    /* Hauteur minimale */
 }
 
 .input-content {
@@ -78,6 +85,7 @@ body {
     min-height: 100px;
     overflow: hidden;
 }
+
 
 .cut {
     background-color: #15172b;
@@ -124,6 +132,16 @@ body {
     color: #dc2f55;
 }
 
+.submit-container {
+    display: flex;
+    justify-content: center;
+    /* Centre horizontalement */
+    align-items: center;
+    /* Centre verticalement si nécessaire */
+    margin-top: 20px;
+    /* Ajoute un espace au-dessus si nécessaire */
+}
+
 .submit {
     background-color: #08d;
     border-radius: 12px;
@@ -131,11 +149,24 @@ body {
     box-sizing: border-box;
     color: #eee;
     cursor: pointer;
-    font-size: 18px;
-    height: 50px;
-    margin-top: 30px;
-    text-align: center;
-    width: 100%;
+    font-size: 20px;
+    /* Augmente la taille du texte */
+    height: 60px;
+    /* Augmente la hauteur du bouton */
+    width: 250px;
+    /* Augmente la largeur du bouton */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    /* Enlève le soulignement */
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.submit:hover {
+    background-color: #06b;
+    /* Assombrit le bouton au survol */
 }
 
 .submit:active {
