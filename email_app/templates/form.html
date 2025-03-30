@@ -9,26 +9,47 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const textarea = document.querySelector(".input");
+            const textarea = document.querySelector(".input-content");
 
             textarea.addEventListener("input", function () {
                 this.style.height = "auto";
                 this.style.height = this.scrollHeight + "px";
-                document.body.style.height = document.documentElement.scrollHeight + "px";
             });
 
-            // Affichage des fichiers sélectionnés
+            // Gestion des pièces jointes avec suppression
             const fileInput = document.getElementById("pieceJointe");
             const fileListDisplay = document.getElementById("fileListDisplay");
 
             fileInput.addEventListener("change", function () {
-                fileListDisplay.innerHTML = "";
-                Array.from(fileInput.files).forEach(file => {
-                    let listItem = document.createElement("div");
-                    listItem.textContent = file.name;
-                    fileListDisplay.appendChild(listItem);
-                });
+                fileListDisplay.innerHTML = ""; // Réinitialisation de la liste
+                let files = Array.from(fileInput.files);
+                updateFileList(files);
             });
+
+            function updateFileList(files) {
+                fileListDisplay.innerHTML = "";
+                let dt = new DataTransfer(); // Création d'un DataTransfer pour gérer les fichiers
+
+                files.forEach((file, index) => {
+                    let listItem = document.createElement("div");
+                    listItem.classList.add("file-item");
+                    listItem.textContent = file.name;
+
+                    let deleteButton = document.createElement("button");
+                    deleteButton.textContent = "❌";
+                    deleteButton.classList.add("delete-file");
+                    deleteButton.onclick = function () {
+                        files.splice(index, 1);  // Suppression du fichier de la liste
+                        updateFileList(files);   // Mise à jour de l'affichage
+                    };
+
+                    listItem.appendChild(deleteButton);
+                    fileListDisplay.appendChild(listItem);
+                    dt.items.add(file); // Ajout des fichiers restants
+                });
+
+                fileInput.files = dt.files; // Mise à jour de l'input file
+            }
         });
     </script>
 </head>

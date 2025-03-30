@@ -103,12 +103,17 @@ def envoyer_email(request):
                 fichiers_temporaires.append(chemin_piece_jointe)  # Stockage du fichier temporaire
 
             mail.Send()
-
-            # Envoi d'une copie de vérification à l'auteur
+            
+            # Envoi d'une copie de vérification à l'auteur avec les pièces jointes
             mail_verification = outlook.CreateItem(0)
             mail_verification.To = email_auteur
             mail_verification.Subject = f"Vérification mail: {titre}"
             mail_verification.HTMLBody = html_content
+
+            # Ajouter les mêmes pièces jointes au mail de vérification
+            for fichier in fichiers_temporaires:
+                mail_verification.Attachments.Add(fichier)
+
             mail_verification.Send()
 
             # Suppression des fichiers temporaires après l'envoi
